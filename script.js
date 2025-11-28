@@ -1,6 +1,10 @@
-let books = [];
+let book = {
+  title: titleInput.value,
+  author: authorInput.value,
+  category: categorySelect.value,
+  imageUrl: "https://m.media-amazon.com/images/I/71ZB18P3inL._SY522_.jpg"
+};
 
-const imgURL = "https://m.media-amazon.com/images/I/71ZB18P3inL._SY522_.jpg";
 
 const bookForm = document.getElementById("bookForm");
 const bookList = document.getElementById("bookList");
