@@ -1,76 +1,77 @@
-let book = {
-  title: titleInput.value,
-  author: authorInput.value,
-  category: categorySelect.value,
-  imageUrl: "https://m.media-amazon.com/images/I/71ZB18P3inL._SY522_.jpg"
-};
+let books = [];
+
+const bookImage =
+  "https://m.media-amazon.com/images/I/71ZB18P3inL._SY522_.jpg";
+const titleInput = document.getElementById("title");
+const authorInput = document.getElementById("author");
+const categoryInput = document.getElementById("category");
+
+const addBtn = document.getElementById("addBookBtn");
+const sortAscBtn = document.getElementById("sortAsc");
+const sortDescBtn = document.getElementById("sortDesc");
+const filterSelect = document.getElementById("filterCategory");
+
+const container = document.getElementById("booksContainer");
 
 
-const bookForm = document.getElementById("bookForm");
-const bookList = document.getElementById("bookList");
-const sortAZ = document.getElementById("sortAZ");
-const sortZA = document.getElementById("sortZA");
-const filterCategory = document.getElementById("filterCategory");
-bookForm.addEventListener("submit", function(e) {
-    e.preventDefault();
+addBtn.addEventListener("click", () => {
+  if (titleInput.value.trim() === "" || authorInput.value.trim() === "") {
+    alert("Please fill all fields");
+    return;
+  }
 
-    const title = document.getElementById("title").value;
-    const author = document.getElementById("author").value;
-    const category = document.getElementById("category").value;
+  let book = {
+    title: titleInput.value,
+    author: authorInput.value,
+    category: categoryInput.value,
+    imageUrl: bookImage
+  };
 
-    const book = {
-        title,
-        author,
-        category,
-        imageUrl: imgURL
-    };
+  books.push(book);
+  renderBooks(books);
 
-    books.push(book);
-    renderBooks(books);
-
-    bookForm.reset();
+  titleInput.value = "";
+  authorInput.value = "";
+  categoryInput.value = "Fiction";
 });
+
+
+sortAscBtn.addEventListener("click", () => {
+  books.sort((a, b) => a.title.localeCompare(b.title));
+  renderBooks(books);
+});
+
+sortDescBtn.addEventListener("click", () => {
+  books.sort((a, b) => b.title.localeCompare(a.title));
+  renderBooks(books);
+});
+
+filterSelect.addEventListener("change", () => {
+  let val = filterSelect.value;
+
+  if (val === "All") renderBooks(books);
+  else renderBooks(books.filter(book => book.category === val));
+});
+
 function renderBooks(data) {
-    bookList.innerHTML = "";
+  container.innerHTML = "";
 
-    data.forEach((book, index) => {
-        const card = document.createElement("div");
-        card.className = "card";
+  data.forEach((book, i) => {
+    let card = document.createElement("div");
+    card.className = "book-card";
 
-        card.innerHTML = `
-            <img src="${book.imageUrl}" />
-            <h3>${book.title}</h3>
-            <p>Author: ${book.author}</p>
-            <p>Category: ${book.category}</p>
-            <button class="delete-btn" onclick="deleteBook(${index})">Delete</button>
-        `;
-
-        bookList.appendChild(card);
+    card.innerHTML = `
+      <img src="${book.imageUrl}" />
+      <h3>${book.title}</h3>
+      <p><strong>Author:</strong> ${book.author}</p>
+      <p><strong>Category:</strong> ${book.category}</p>
+      <button class="deleteBtn">Delete</button>
+    `;
+    card.querySelector(".deleteBtn").addEventListener("click", () => {
+      books.splice(i, 1);
+      renderBooks(books);
     });
-}
-function deleteBook(index) {
-    books.splice(index, 1);
-    applyFilter();
-}
-sortAZ.addEventListener("click", () => {
-    books.sort((a, b) => a.title.localeCompare(b.title));
-    applyFilter();
-});
-sortZA.addEventListener("click", () => {
-    books.sort((a, b) => b.title.localeCompare(a.title));
-    applyFilter();
-});
-filterCategory.addEventListener("change", function () {
-    applyFilter();
-});
 
-function applyFilter() {
-    const value = filterCategory.value;
-
-    if (value === "All") {
-        renderBooks(books);
-    } else {
-        const filtered = books.filter(b => b.category === value);
-        renderBooks(filtered);
-    }
+    container.appendChild(card);
+  });
 }

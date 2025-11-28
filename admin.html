@@ -1,44 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Book Management</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Admin</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Book Management</h1>
+  <div class="nav">
+    <button onclick="window.location.href='index.html'">Home</button>
+  </div>
 
-<div class="container">
-    <form id="bookForm">
-        <input type="text" id="title" placeholder="Book Title" required />
-        <input type="text" id="author" placeholder="Author Name" required />
-        
-        <select id="category">
-            <option value="Fiction">Fiction</option>
-            <option value="Comedy">Comedy</option>
-            <option value="Technical">Technical</option>
-        </select>
+  <h1 class="center">Book Management Page</h1>
+  <div id="formSection">
+    <h2>Add New Book</h2>
 
-        <button type="submit">Add Book</button>
-    </form>
-    <div id="controls">
-        <button id="sortAZ">Sort A → Z</button>
-        <button id="sortZA">Sort Z → A</button>
+    <input type="text" id="title" placeholder="Book Title">
 
-        <select id="filterCategory">
-            <option value="All">All</option>
-            <option value="Fiction">Fiction</option>
-            <option value="Comedy">Comedy</option>
-            <option value="Technical">Technical</option>
-        </select>
-    </div>
+    <input type="text" id="author" placeholder="Author Name">
 
-    <div id="bookList"></div>
-</div>
+    <select id="category">
+      <option value="Fiction">Fiction</option>
+      <option value="Comedy">Comedy</option>
+      <option value="Technical">Technical</option>
+    </select>
 
-<script src="script.js"></script>
+    <button id="addBookBtn">Add Book</button>
+  </div>
+  <div class="controls">
+    <button id="sortAsc">Sort A → Z</button>
+    <button id="sortDesc">Sort Z → A</button>
 
+    <select id="filterCategory">
+      <option value="All">All</option>
+      <option value="Fiction">Fiction</option>
+      <option value="Comedy">Comedy</option>
+      <option value="Technical">Technical</option>
+    </select>
+  </div>
+
+  <!-- Books display -->
+  <div id="booksContainer"></div>
+
+  <script src="admin.js"></script>
 </body>
 </html>
